@@ -7,7 +7,7 @@ import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { FirebaseError } from '@firebase/util';
 import { useRouter } from 'next/navigation';
 
-export const Page = () => {
+export default function SigninPage() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -113,5 +113,3 @@ export const Page = () => {
     </div>
   );
 };
-
-export default Page;

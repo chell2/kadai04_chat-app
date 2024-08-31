@@ -11,7 +11,7 @@ import {
 import { FirebaseError } from '@firebase/util';
 import { auth } from '@/lib/firebase/firebase';
 
-export const Page = () => {
+export default function SignupPage() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -119,4 +119,3 @@ export const Page = () => {
     </div>
   );
 };
-export default Page;

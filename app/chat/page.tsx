@@ -19,26 +19,12 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 const Message = ({
   message,
   senderId,
+  currentUserId,
 }: {
   message: string;
   senderId: string;
+  currentUserId: string | null;
 }) => {
-  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
-
-  const auth = getAuth();
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setCurrentUserId(user.uid);
-      } else {
-        setCurrentUserId(null);
-      }
-    });
-
-    return () => unsubscribe();
-  }, [auth]);
-
   const isOwnMessage = senderId === currentUserId;
 
   return (
@@ -57,7 +43,6 @@ const Message = ({
       >
         <Text>{message}</Text>
       </Box>
-      {isOwnMessage ? <Avatar /> : null}
     </Flex>
   );
 };
@@ -67,7 +52,7 @@ export default function ChatPage() {
   const [chats, setChats] = useState<{ message: string; userId: string }[]>([]);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
 
-  // チャットコンテナへの参照を作成
+  // チャットコンテナへの参照を作成（スクロール制御）
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -146,6 +131,7 @@ export default function ChatPage() {
             message={chat.message}
             senderId={chat.userId}
             key={`ChatMessage_${index}`}
+            currentUserId={currentUserId}
           />
         ))}
       </Flex>

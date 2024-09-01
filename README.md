@@ -51,4 +51,4 @@
   - [ChakraUI](https://v2.chakra-ui.com/) ：シンプルで使いやすそう
 
 - 参考にした記事
-  - [FirebaseとTypeScriptとNext.jsを使ってリアルタイムチャットアプリを作ろう](https://zenn.dev/hisho/books/617d8f9d6bd78b)
+  - [FirebaseとTypeScriptとNext.jsを使ってリアルタイムチャットアプリを作ろう](https://zenn.dev/hisho/books/617d8f9d6bd78b) ：Pages Routerだからか全然この通りにできない。詰んでばかり。

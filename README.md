@@ -47,7 +47,7 @@
 - 使用技術関連
   - [App Router](https://nextjs.org/docs/app) ：勉強中
   - [Firebase Authentication](https://firebase.google.com/docs/auth?hl=ja) ：いまいちメリットが掴めてない
-  - [daisyUI](https://daisyui.com/) ：ターミナルにデイジーが現れるから好き
+  - [daisyUI](https://daisyui.com/) ：可愛いしターミナルに🌼が現れるからずっと好き
   - [ChakraUI](https://v2.chakra-ui.com/) ：シンプルで使いやすそう
 
 - 参考にした記事

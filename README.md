@@ -12,8 +12,8 @@
 
 ### 1.プロダクト名
 
-（チャットアプリのための）認証機能....<br/>
-　<small>※チャットページ追加しました</small>
+（チャットアプリのための）認証機能....  
+<small>※チャットページ追加しました</small>
 
 ### 2.課題内容（どんな作品？）
 
@@ -52,4 +52,4 @@
   - [ChakraUI](https://v2.chakra-ui.com/) ：シンプルで使いやすそう
 
 - 参考にした記事
-  - [FirebaseとTypeScriptとNext.jsを使ってリアルタイムチャットアプリを作ろう](https://zenn.dev/hisho/books/617d8f9d6bd78b) ：Pages Routerだからか全然この通りにできない。詰んでばかり。
+  - [FirebaseとTypeScriptとNext.jsを使ってリアルタイムチャットアプリを作ろう](https://zenn.dev/hisho/books/617d8f9d6bd78b) ：Pages Router版なので書き換えが必要

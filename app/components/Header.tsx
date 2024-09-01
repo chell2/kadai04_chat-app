@@ -32,9 +32,9 @@ export const Header = () => {
     }
   };
   return (
-    <chakra.header py={4} bgColor={'blue.600'}>
+    <chakra.header py={4} bgColor={'white'}>
       <Container maxW={'container.lg'}>
-        <Heading color={'blue.600'}>
+        <Heading color={'white'}>
           {user ? (
             <Button
               colorScheme={'teal'}

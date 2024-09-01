@@ -16,8 +16,9 @@
 
 ### 2.課題内容（どんな作品？）
 
-- FirebaseAuthenticationを使って認証機能を作成していたら、認証機能だけで終わりました。
+- FirebaseAuthenticationを使って認証機能を作成し~~ていたら、認証機能だけで終わり~~ました。
 - アカウント登録とログインとログアウトができます。
+- チャット機能も無事追加完了しました🙌
 
 ### 3.DEMO
 
@@ -29,8 +30,8 @@
 
 ### 5.工夫した点・こだわった点
 
-- Next.js+TypeScript+FirebaseAuthenticationを使って認証機能をつくりました。
-- チャット機能も無事追加完了しました🙌
+- Next.js+TypeScript+FirebaseAuthenticationを使って認証&チャットページをつくりました。
+- 最新のメッセージが常に表示されるようuseRefとuseEffectを使ってスクロールを制御しました。
 
 ### 6.難しかった点・次回トライしたいこと(又は機能)
 

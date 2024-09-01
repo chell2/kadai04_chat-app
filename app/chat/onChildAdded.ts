@@ -1,9 +1,22 @@
 import { useEffect, useState } from 'react';
 import { getDatabase, onChildAdded, ref } from '@firebase/database';
 import { FirebaseError } from '@firebase/util';
+import { getAuth } from 'firebase/auth';
 
 export const App = () => {
-  const [chats, setChats] = useState<{ message: string }[]>([]);
+  const [chats, setChats] = useState<{ message: string; senderId: string }[]>(
+    []
+  );
+  const [userId, setUserId] = useState<string>('');
+
+  useEffect(() => {
+    // ユーザーIDを取得する
+    const auth = getAuth();
+    const currentUser = auth.currentUser;
+    if (currentUser) {
+      setUserId(currentUser.uid);
+    }
+  }, []);
 
   useEffect(() => {
     try {
@@ -11,7 +24,9 @@ export const App = () => {
       const dbRef = ref(db, 'chat');
       return onChildAdded(dbRef, (snapshot) => {
         const value = snapshot.val();
-        setChats((prev) => [...prev, { message: value.message }]);
+
+        const senderId = value.senderId ?? '';
+        setChats((prev) => [...prev, { message: value.message, senderId }]);
       });
     } catch (e) {
       if (e instanceof FirebaseError) {

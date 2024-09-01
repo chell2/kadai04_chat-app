@@ -11,17 +11,36 @@ import {
   Spacer,
   Text,
 } from '@chakra-ui/react';
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import { getDatabase, onChildAdded, push, ref } from '@firebase/database';
 import { FirebaseError } from '@firebase/util';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 const Message = ({
   message,
-  isOwnMessage,
+  senderId,
 }: {
   message: string;
-  isOwnMessage: boolean;
+  senderId: string;
 }) => {
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+
+  const auth = getAuth();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setCurrentUserId(user.uid);
+      } else {
+        setCurrentUserId(null);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [auth]);
+
+  const isOwnMessage = senderId === currentUserId;
+
   return (
     <Flex
       flexDirection={isOwnMessage ? 'row-reverse' : 'row'}
@@ -45,47 +64,70 @@ const Message = ({
 
 export default function ChatPage() {
   const [message, setMessage] = useState<string>('');
+  const [chats, setChats] = useState<{ message: string; userId: string }[]>([]);
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+
+  // チャットコンテナへの参照を作成
+  const chatContainerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setCurrentUserId(user.uid);
+      } else {
+        setCurrentUserId(null);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    if (currentUserId) {
+      try {
+        const db = getDatabase();
+        const dbRef = ref(db, 'chat');
+        return onChildAdded(dbRef, (snapshot) => {
+          const data = snapshot.val();
+          const message = String(data['message'] ?? '');
+          const userId = String(data['senderId'] ?? '');
+          setChats((prev) => [...prev, { message, userId }]);
+        });
+      } catch (e) {
+        if (e instanceof FirebaseError) {
+          console.error(e);
+        }
+      }
+    }
+  }, [currentUserId]);
 
   const handleSendMessage = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
-      const db = getDatabase();
-      const dbRef = ref(db, 'chat');
-      await push(dbRef, {
-        message,
-        user: 'user', // 任意の識別子
-      });
-      setMessage('');
-    } catch (e) {
-      if (e instanceof FirebaseError) {
-        console.log(e);
+    if (currentUserId) {
+      try {
+        const db = getDatabase();
+        const dbRef = ref(db, 'chat');
+        await push(dbRef, {
+          message,
+          senderId: currentUserId,
+        });
+        setMessage('');
+      } catch (e) {
+        if (e instanceof FirebaseError) {
+          console.log(e);
+        }
       }
     }
   };
 
-  const [chats, setChats] = useState<{ message: string; user: string }[]>([]);
-
+  // メッセージが追加されるたびにスクロールを最下部に移動
   useEffect(() => {
-    try {
-      const db = getDatabase();
-      const dbRef = ref(db, 'chat');
-      return onChildAdded(dbRef, (snapshot) => {
-        const data = snapshot.val();
-        const message = String(data['message'] ?? '');
-        const user = String(data['user'] ?? ''); // ユーザー識別子
-        setChats((prev) => [...prev, { message, user }]);
-      });
-    } catch (e) {
-      if (e instanceof FirebaseError) {
-        console.error(e);
-      }
-      return;
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  // 仮のユーザーIDを設定
-  const currentUser = 'user'; // 現在ログインしているユーザーの識別子
+  }, [chats]);
 
   return (
     <Container py={14}>
@@ -97,11 +139,12 @@ export default function ChatPage() {
         gap={2}
         height={400}
         px={2}
+        ref={chatContainerRef} // 参照を設定
       >
         {chats.map((chat, index) => (
           <Message
             message={chat.message}
-            isOwnMessage={chat.user === currentUser}
+            senderId={chat.userId}
             key={`ChatMessage_${index}`}
           />
         ))}

@@ -45,10 +45,10 @@
 ### 8.フリー項目（感想、シェアしたいこと等なんでも）
 
 - 使用技術関連
-  - [App Router](https://nextjs.org/docs/app)：勉強中
-  - [Firebase Authentication](https://firebase.google.com/docs/auth?hl=ja)：いまいちメリットが掴めない
-  - [daisyUI]（https://daisyui.com/）：ターミナルにデイジーが現れるから好き
-  - [ChakraUI]（https://v2.chakra-ui.com/）：シンプルで使いやすそう
+  - [App Router](https://nextjs.org/docs/app) ：勉強中
+  - [Firebase Authentication](https://firebase.google.com/docs/auth?hl=ja) ：いまいちメリットが掴めてない
+  - [daisyUI](https://daisyui.com/) ：ターミナルにデイジーが現れるから好き
+  - [ChakraUI](https://v2.chakra-ui.com/) ：シンプルで使いやすそう
 
 - 参考にした記事
   - [FirebaseとTypeScriptとNext.jsを使ってリアルタイムチャットアプリを作ろう](https://zenn.dev/hisho/books/617d8f9d6bd78b)
